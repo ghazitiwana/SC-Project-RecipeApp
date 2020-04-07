@@ -20,14 +20,21 @@
   },
   "homepage": "https://github.com/ghazitiwana/SC-Project-RecipeApp#readme",
   "dependencies": {
+    "@babel/polyfill": "^7.8.7",
+    "axios": "^0.19.2",
+    "babel-preset-env": "^1.7.0",
+    "fractional": "^1.0.0",
+    "fracty": "^1.0.9",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "uniqid": "^5.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.0",
     "@babel/preset-react": "^7.9.4",
     "babel-loader": "^8.1.0",
+    "babel-polyfill": "^6.26.0",
     "css-loader": "^3.4.2",
     "html-webpack-plugin": "^4.0.1",
     "style-loader": "^1.1.3",
