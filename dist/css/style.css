@@ -47,6 +47,13 @@ h2 {
   align-items: center;
  }
 
+.fa {
+  
+  color: #1E90FF;
+  font-size: 50px; 
+  
+}
+
 .btn {
   padding: 1.3rem 3rem;
   font-size: 1.4rem; }
@@ -108,9 +115,7 @@ h2 {
   text-align: center;
    }
 
-.link:link,
-.link:visited {
-  color: #968B87; }
+
 
 .loader {
   margin: 5rem auto;
@@ -151,7 +156,6 @@ h2 {
   .search__field {
     border: none;
     background: none;
-    font-family: inherit;
     color: inherit;
     font-size: 1.7rem;
     width: 30rem; }
@@ -248,12 +252,6 @@ h2 {
     text-transform: uppercase;
     font-weight: 600;
     margin-bottom: .3rem; }
-  .results__author,
-  .likes__author {
-    font-size: 1.1rem;
-    color: #968B87;
-    text-transform: uppercase;
-    font-weight: 600; }
   .results__pages,
   .likes__pages {
     margin-top: 3rem;
@@ -430,7 +428,6 @@ h2 {
     justify-content: space-between; }
     .shopping__count input {
       color: inherit;
-      font-family: inherit;
       font-size: 1.2rem;
       text-align: center;
       border: none;

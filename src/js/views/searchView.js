@@ -41,7 +41,6 @@ const renderRecipe = recipe => {
                 </figure>
                 <div class="results__data">
                     <h4 class="results__name">${limitRecipeTitle(recipe.title)}</h4>
-                    <p class="results__author">${recipe.publisher}</p>
                 </div>
             </a>
         </li>
@@ -54,9 +53,6 @@ const creatBtn = (page, type) => `
 
 <button class="btn-inline results__btn--${type}" data-goto=${type === 'prev' ? page - 1 : page + 1}>
     <span>Page ${type === 'prev' ? page - 1 : page + 1}</span>
-    <svg class="search__icon">
-        <use href="img/icons.svg#icon-triangle-${type === 'prev' ? 'left' : 'right'}"></use>
-    </svg>
 </button>
 `;
 

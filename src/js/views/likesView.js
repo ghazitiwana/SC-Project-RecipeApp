@@ -21,7 +21,6 @@ export const renderLike = like => {
           </figure>
           <div class="likes__data">
               <h4 class="likes__name">${limitRecipeTitle(like.title)}</h4>
-              <p class="likes__author">${like.author}</p>
           </div>
       </a>
     </li>
