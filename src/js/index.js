@@ -8,34 +8,28 @@ import * as listView from './views/listView';
 import * as likeView from './views/likeView';
 import { elements, renderLoader, clearLoader } from './views/base';
 
-/**
-* GLOBAL STATE OBJECT
-**/
+//global state objects
 const state = {};
 window.state = state;
 
-
-/**
-* SEARCH CONTROLLER
-**/
+//search controller
 const controlSearch = async () => {
-  // 1. Get query from view
-  const query = searchView.getInput(); // TODO from User side
-  //console.log(query);
+//getting query
+  const query = searchView.getInput();
 
   if(query){
-  // 2. New Search Object and add to the state
+//adding new search object to state
   state.search = new Search(query);
 
   try {
-    // 3. Prepare UI for result (loading sign or delete previous result etc.)
+//clearing previous results to make room for new 
     searchView.clearInput();
     searchView.clearResList();
     renderLoader(elements.searchRes);
-    // 4. Search for recipes
+//searching for recipes
     await state.search.getResults();
 
-    // 5. Render result on UI
+//renering results on UI
     clearLoader();
     searchView.renderResult(state.search.recipes);
   }
@@ -67,34 +61,31 @@ elements.searchResPage.addEventListener('click', e => {
 
 
 
-/**
-* RECIPE CONTROLLER
-**/
+//recipe controller
 
 const controlRecipe = async () => {
   const id = window.location.hash.replace('#', '');
 
   if(id) {
-    // 1. Prepare UI for changes
+//clearing previous result
     recipeView.clearRecipe();
     renderLoader(elements.recipe);
 
-    // highlight Selected item
     if(state.search) searchView.highlightSelected(id);
 
-    // 2. Create New recipe object
+//creating new recipe object
     state.recipe = new Recipe(id);
 
     try {
-      // 3. Get recipe data and parseIngredients
+//getting recipe data and parseIngredients
       await state.recipe.getRecipe();
       state.recipe.parseIngredients();
 
-      // 4. Calculate servings and time
+//calculating servings and time
       state.recipe.calcTime();
       state.recipe.calcServing();
 
-      // 5. Render recipe
+//rendering recipe
       clearLoader();
       recipeView.renderRecipe(
         state.recipe,
@@ -112,14 +103,12 @@ const controlRecipe = async () => {
 
 
 
-/**
-* LIST CONTROLLER
-**/
+//list controller
  const controllList = () => {
-   // Create a new List if there's none
+//creating new list
    if(!state.list) state.list = new List();
 
-   // Add each ingredient to the list
+//adding each new ingredient to list
    state.recipe.ingredients.forEach(el => {
       const item = state.list.addItem(el.count, el.unit, el.ingredient)
       listView.renderItem(item);
@@ -128,68 +117,53 @@ const controlRecipe = async () => {
 
 
 
- /**
- * Like CONTROLLER
- **/
 
-
+//like controller
 const controlLike = () => {
-  // Create a new Like if there's none
+//creating new Like object
   if(!state.likes) state.likes = new Like();
 
   const currentID = state.recipe.id;
-  // if item is NOT yet liked
+//adding item to list if its not liked already
   if(!state.likes.isLiked(currentID)){
-    // add item into liked list
     const newLike = state.likes.addLike(
       currentID,
       state.recipe.title,
       state.recipe.author,
       state.recipe.image
     )
-    // toggle menu btn
+
     likeView.toggleLikeBtn(true);
-    // add like to UI
+//rendering like in UI
     likeView.renderLike(newLike);
   }
-  // if item HAS benn liked
+//deleting item from list if it has been liked already
   else {
-    // delete item into liked list
+
     state.likes.deleteLike(currentID);
-    // toggle menu btn
     likeView.toggleLikeBtn(false);
-    // delete like to UI
     likeView.deleteLike(currentID);
   }
    likeView.toggleLikeMenu(state.likes.getNumLikes());
 };
 
-// Handling localStorage on load
+//checking if there is any like data already in localstorage
   window.addEventListener('load', () => {
     state.likes = new Like();
-
-    // Retrive data from localstorage
     state.likes.readStorage()
-
-    // Toggle likemenu
     likeView.toggleLikeMenu(state.likes.getNumLikes());
-
-    // Render existing menu
     state.likes.likes.forEach(like => likeView.renderLike(like));
   })
 
 
 
 
- // Handling update and delete list items
+ //handling deleting and updating of objects
  elements.shopping.addEventListener('click', e => {
    const id = e.target.closest('.shopping__item').dataset.itemid;
 
    if(e.target.matches('.shopping__delete, .shopping__delete *')){
-     // Delete in the state
      state.list.deleteItem(id);
-
-     //Delete in the UI
      listView.deleteItem(id);
    }
    else if(e.target.matches('.shopping__count--value')){
@@ -201,15 +175,15 @@ const controlLike = () => {
 
 
 
-// Hndling Servings and Ingredients
+//handling number of servings and amount of ingredients
   elements.recipe.addEventListener('click', e => {
     if(e.target.matches('.btn-decrease, .btn-decrease *')){
-      //Decrease btn
+//decrease
       state.recipe.updateServings('dec');
       recipeView.updateServingsIngredients(state.recipe);
     }
     else if(e.target.matches('.btn-increase, .btn-increase *')){
-    //Increase btn
+//increase
     state.recipe.updateServings('inc');
     recipeView.updateServingsIngredients(state.recipe);
     }
